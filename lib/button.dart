@@ -17,21 +17,29 @@ class ControlButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: bgColor,
-        border: Border.all(
-          color: isPrimary ? Colors.white : const Color(0xFFBDBDBD),
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(isPrimary ? 50 : 30),
+        shape: BoxShape.circle,
+        color: const Color(0xFF2E2E2E),
+        border: Border.all(color: Colors.black45, width: 5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.7),
+            offset: const Offset(7, 7),
+            blurRadius: 10,
+          ),
+          BoxShadow(
+            color: Colors.white.withOpacity(0.1),
+            offset: const Offset(-7, -7),
+            blurRadius: 10,
+          ),
+        ],
       ),
-      child: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          icon,
-          size: iconSize,
-          color: isPrimary ? Colors.white : const Color(0xFFBDBDBD),
-        ),
+      child: Icon(
+        icon,
+        size: iconSize,
+        color:
+            isPrimary ? Colors.white : const Color.fromARGB(137, 210, 202, 202),
       ),
     );
   }

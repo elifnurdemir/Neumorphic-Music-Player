@@ -18,9 +18,8 @@ class MusicPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
-      backgroundColor: const Color(0xFF212121),
       body: const Padding(
-        padding: EdgeInsets.all(30.0),
+        padding: EdgeInsets.all(50.0),
         child: Column(
           children: [
             AlbumCover(),
