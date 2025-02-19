@@ -24,7 +24,7 @@ class MusicPlayer extends StatelessWidget {
                 const CircleAvatar(
                   radius: 130,
                   backgroundImage: AssetImage('assets/profile.jpg'),
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.green,
                 ),
                 // Row içinde butonları birbirine eşit mesafeye yerleştiriyoruz
                 Row(
