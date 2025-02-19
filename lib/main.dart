@@ -17,19 +17,36 @@ class MusicPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+
       appBar: const CustomAppBar(),
-      body: const Padding(
-        padding: EdgeInsets.all(50.0),
-        child: Column(
-          children: [
-            AlbumCover(),
-            SizedBox(height: 60),
-            SongDetails(),
-            SizedBox(height: 60),
-            MusicProgressBar(),
-            SizedBox(height: 80),
-            MusicControls(),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Color.fromARGB(255, 105, 108, 124), // AppBar ile aynı renk
+              Color.fromARGB(255, 42, 43, 49),
+              Color.fromARGB(255, 16, 17, 21),
+            ],
+          ),
+        ),
+
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AlbumCover(),
+              SizedBox(height: 40),
+              SongDetails(),
+              SizedBox(height: 40),
+              MusicProgressBar(),
+              SizedBox(height: 60),
+              MusicControls(),
+            ],
+          ),
         ),
       ),
     );
