@@ -21,9 +21,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             NeumorphicButton(
-              icon: Icons.info,
+              icon: Icons.arrow_back,
               onPressed: () {},
-              iconSize: 30,
+              iconSize: 20,
               bgColor: const Color(0xFF2E2E2E),
               padding: const EdgeInsets.all(14),
             ),
@@ -31,14 +31,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               'Playing Now',
               style: TextStyle(
                 color: Color(0xFFBDBDBD),
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             NeumorphicButton(
               icon: Icons.menu,
               onPressed: () {},
-              iconSize: 30,
+              iconSize: 20,
               bgColor: const Color(0xFF2E2E2E),
               padding: const EdgeInsets.all(14),
             ),

@@ -27,7 +27,7 @@ class MusicPlayer extends StatelessWidget {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Color.fromARGB(255, 105, 108, 124), // AppBar ile aynı renk
+              Color.fromARGB(255, 105, 108, 124),
               Color.fromARGB(255, 42, 43, 49),
               Color.fromARGB(255, 16, 17, 21),
             ],
@@ -41,11 +41,11 @@ class MusicPlayer extends StatelessWidget {
             children: [
               SizedBox(height: 100),
               AlbumCover(),
-              SizedBox(height: 50),
+              SizedBox(height: 100),
               SongDetails(),
               SizedBox(height: 50),
               MusicProgressBar(),
-              SizedBox(height: 100),
+              SizedBox(height: 50),
               MusicControls(),
             ],
           ),
