@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/pages/player_screen/albumcover.dart';
-import 'package:music_player/pages/player_screen/appbar.dart';
+import 'package:music_player/constants/appbar.dart';
 import 'package:music_player/pages/player_screen/controls.dart';
 import 'package:music_player/pages/player_screen/progressbar.dart';
 import 'package:music_player/pages/player_screen/songdetail.dart';

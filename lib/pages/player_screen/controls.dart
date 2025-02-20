@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/neumorphicButton.dart';
+import 'package:music_player/constants/neumorphicButton.dart';
 
 class MusicControls extends StatelessWidget {
   const MusicControls({super.key});

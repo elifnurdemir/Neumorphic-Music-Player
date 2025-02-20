@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/neumorphicButton.dart';
+import 'package:music_player/constants/neumorphicButton.dart';
+import 'package:music_player/pages/player_list_screen/playlist.dart';
+import 'package:music_player/pages/player_list_screen/playlist.dart'; // PlayList sayfasını içe aktar
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -22,7 +24,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             NeumorphicButton(
               icon: Icons.arrow_back,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PlayList()),
+                );
+              },
               iconSize: 20,
               bgColor: const Color(0xFF2E2E2E),
               padding: const EdgeInsets.all(14),
