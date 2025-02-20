@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/neumorphicButton.dart';
 
 class AlbumCover extends StatelessWidget {
   const AlbumCover({super.key});
@@ -8,6 +9,7 @@ class AlbumCover extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
+        // Albüm kapağı için dairesel arka plan
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -32,24 +34,25 @@ class AlbumCover extends StatelessWidget {
             backgroundColor: Colors.grey,
           ),
         ),
+
+        // Butonları konumlandırma (Sol ve Sağ)
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
+            NeumorphicButton(
               onPressed: () {},
-              icon: const Icon(
-                Icons.favorite_border,
-                size: 40,
-                color: Color(0xFFBDBDBD),
-              ),
+              icon: Icons.favorite_border,
+              iconSize: 32,
+              bgColor: const Color(0xFF2E2E2E),
+              padding: const EdgeInsets.all(12),
             ),
-            IconButton(
+
+            NeumorphicButton(
               onPressed: () {},
-              icon: const Icon(
-                Icons.repeat,
-                size: 40,
-                color: Color(0xFFBDBDBD),
-              ),
+              icon: Icons.repeat,
+              iconSize: 32,
+              bgColor: const Color(0xFF2E2E2E),
+              padding: const EdgeInsets.all(12),
             ),
           ],
         ),

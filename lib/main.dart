@@ -20,6 +20,7 @@ class MusicPlayer extends StatelessWidget {
       extendBodyBehindAppBar: true,
 
       appBar: const CustomAppBar(),
+
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -38,12 +39,13 @@ class MusicPlayer extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 100),
               AlbumCover(),
-              SizedBox(height: 40),
+              SizedBox(height: 50),
               SongDetails(),
-              SizedBox(height: 40),
+              SizedBox(height: 50),
               MusicProgressBar(),
-              SizedBox(height: 60),
+              SizedBox(height: 100),
               MusicControls(),
             ],
           ),

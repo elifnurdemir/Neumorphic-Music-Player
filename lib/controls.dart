@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/button.dart';
+import 'package:music_player/neumorphicButton.dart';
 
 class MusicControls extends StatelessWidget {
   const MusicControls({super.key});
@@ -7,23 +7,35 @@ class MusicControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center, // Daha dengeli hizalama
       children: [
-        ControlButton(
+        // Önceki parça butonu
+        NeumorphicButton(
           icon: Icons.skip_previous,
-          iconSize: 40,
-          bgColor: const Color(0xFFEEEEEE),
+          iconSize: 35,
+          bgColor: const Color(0xFF2E2E2E),
+          padding: const EdgeInsets.all(16), // Daha iyi tıklanabilirlik
+          onPressed: () {},
         ),
-        ControlButton(
+        const SizedBox(width: 20), // Butonlar arasına boşluk ekledik
+        // Oynatma / duraklatma butonu (Ana buton)
+        NeumorphicButton(
           icon: Icons.play_arrow,
           iconSize: 50,
-          bgColor: const Color(0xFF26A69A),
-          isPrimary: true,
+          bgColor: const Color(0xFF26A69A), // Ana buton için farklı renk
+          padding: const EdgeInsets.all(
+            20,
+          ), // Büyük buton için padding artırıldı
+          onPressed: () {},
         ),
-        ControlButton(
+        const SizedBox(width: 20), // Butonlar arasına boşluk ekledik
+        // Sonraki parça butonu
+        NeumorphicButton(
           icon: Icons.skip_next,
-          iconSize: 40,
-          bgColor: const Color(0xFFEEEEEE),
+          iconSize: 35,
+          bgColor: const Color(0xFF2E2E2E),
+          padding: const EdgeInsets.all(16),
+          onPressed: () {},
         ),
       ],
     );
