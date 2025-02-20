@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/albumcover.dart';
-import 'package:music_player/appbar.dart';
-import 'package:music_player/controls.dart';
-import 'package:music_player/progressbar.dart';
-import 'package:music_player/songdetail.dart';
+import 'package:music_player/pages/player_screen/albumcover.dart';
+import 'package:music_player/pages/player_screen/appbar.dart';
+import 'package:music_player/pages/player_screen/controls.dart';
+import 'package:music_player/pages/player_screen/progressbar.dart';
+import 'package:music_player/pages/player_screen/songdetail.dart';
 
 void main() {
   runApp(
