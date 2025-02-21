@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/constants/circle_cover.dart';
+import 'package:music_player/constants/neumorphic_button.dart';
 
 class PlayList extends StatelessWidget {
   const PlayList({super.key});
@@ -18,8 +19,10 @@ class PlayList extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Container(
+        width: double.infinity, // Tüm ekranı kaplasın
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
@@ -31,7 +34,36 @@ class PlayList extends StatelessWidget {
             ],
           ),
         ),
-        child: Align(alignment: Alignment.topCenter, child: CircleCover()),
+        child: Center(
+          // Ana içeriği ortala
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // İçeriği sıkıştır
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min, // İçeriği sıkıştır
+                // Ortala
+                crossAxisAlignment: CrossAxisAlignment.center, // Dikey hizalama
+                children: [
+                  NeumorphicButton(
+                    icon: Icons.shuffle,
+                    onPressed: () {},
+                  ), // Sol ikon
+                  const SizedBox(width: 20), // Boşluk ekleyerek ayır
+                  SizedBox(
+                    width: 160, // CircleCover boyutunu küçült
+                    height: 160,
+                    child: CircleCover(),
+                  ), // Ortada duracak albüm kapağı
+                  const SizedBox(width: 20), // Boşluk ekleyerek ayır
+                  NeumorphicButton(
+                    icon: Icons.share,
+                    onPressed: () {},
+                  ), // Sağ ikon
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
