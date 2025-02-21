@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/constants/neumorphicButton.dart';
+import 'package:music_player/constants/neumorphic_button.dart';
 import 'package:music_player/pages/player_list_screen/playlist.dart';
-import 'package:music_player/pages/player_list_screen/playlist.dart'; // PlayList sayfasını içe aktar
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_player/constants/neumorphicButton.dart';
+import 'package:music_player/constants/neumorphic_button.dart';
 
 class AlbumCover extends StatelessWidget {
   const AlbumCover({super.key});
@@ -17,12 +17,12 @@ class AlbumCover extends StatelessWidget {
             border: Border.all(color: const Color(0xFF404040), width: 3),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.8),
+                color: Color.fromRGBO(0, 0, 0, 0.8),
                 offset: const Offset(6, 6),
                 blurRadius: 10,
               ),
               BoxShadow(
-                color: Colors.white.withOpacity(0.1),
+                color: Color.fromRGBO(255, 255, 255, 0.1),
                 offset: const Offset(-6, -6),
                 blurRadius: 10,
               ),
