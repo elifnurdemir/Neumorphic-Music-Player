@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/constants/circle_cover.dart';
 import 'package:music_player/constants/neumorphic_button.dart';
+import 'package:music_player/constants/title_textstyle.dart';
 
 class PlayList extends StatelessWidget {
   const PlayList({super.key});
@@ -10,14 +11,7 @@ class PlayList extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text(
-          'Playlist',
-          style: TextStyle(
-            color: Color(0xFFBDBDBD),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: Text('Playlist', style: TitleTextStyle.title),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -45,7 +39,7 @@ class PlayList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center, // Dikey hizalama
                 children: [
                   NeumorphicButton(
-                    icon: Icons.shuffle,
+                    icon: Icons.playlist_add,
                     onPressed: () {},
                   ), // Sol ikon
                   const SizedBox(width: 20), // Boşluk ekleyerek ayır

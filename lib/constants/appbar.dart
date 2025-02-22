@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/constants/neumorphic_button.dart';
-import 'package:music_player/pages/player_list_screen/playlist.dart';
+import 'package:music_player/constants/title_textstyle.dart';
+import 'package:music_player/pages/playlist_screen/playlist.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -33,14 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               bgColor: const Color(0xFF2E2E2E),
               padding: const EdgeInsets.all(14),
             ),
-            const Text(
-              'Playing Now',
-              style: TextStyle(
-                color: Color(0xFFBDBDBD),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text('Playing Now', style: TitleTextStyle.title),
             NeumorphicButton(
               icon: Icons.menu,
               onPressed: () {},

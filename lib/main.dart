@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/constants/gradient_bg.dart';
 import 'package:music_player/pages/player_screen/albumcover.dart';
 import 'package:music_player/constants/appbar.dart';
 import 'package:music_player/pages/player_screen/controls.dart';
@@ -22,18 +23,7 @@ class MusicPlayer extends StatelessWidget {
       appBar: const CustomAppBar(),
 
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color.fromARGB(255, 105, 108, 124),
-              Color.fromARGB(255, 42, 43, 49),
-              Color.fromARGB(255, 16, 17, 21),
-            ],
-          ),
-        ),
-
+        decoration: const BoxDecoration(gradient: GradientBG.background),
         child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           child: Column(
