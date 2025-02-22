@@ -3,6 +3,7 @@ import 'package:music_player/constants/circle_cover.dart';
 import 'package:music_player/constants/gradient_bg.dart';
 import 'package:music_player/constants/neumorphic_button.dart';
 import 'package:music_player/constants/title_textstyle.dart';
+import 'package:music_player/pages/playlist_screen/list.dart';
 
 class PlayList extends StatelessWidget {
   const PlayList({super.key});
@@ -10,7 +11,7 @@ class PlayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: true, // **AppBar'ı şeffaf yap**
       appBar: AppBar(
         title: Text('Playlist', style: TitleTextStyle.title),
         backgroundColor: Colors.transparent,
@@ -18,35 +19,34 @@ class PlayList extends StatelessWidget {
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: GradientBG.background),
-        width: double.infinity, // Tüm ekranı kaplasın
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min, // İçeriği sıkıştır
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min, // İçeriği sıkıştır
-                // Ortala
-                crossAxisAlignment: CrossAxisAlignment.center, // Dikey hizalama
-                children: [
-                  NeumorphicButton(
-                    icon: Icons.playlist_add,
-                    onPressed: () {},
-                  ), // Sol ikon
-                  const SizedBox(width: 20), // Boşluk ekleyerek ayır
-                  SizedBox(
-                    width: 160, // CircleCover boyutunu küçült
-                    height: 160,
-                    child: CircleCover(),
-                  ), // Ortada duracak albüm kapağı
-                  const SizedBox(width: 20), // Boşluk ekleyerek ayır
-                  NeumorphicButton(
-                    icon: Icons.share,
-                    onPressed: () {},
-                  ), // Sağ ikon
-                ],
+        width: double.infinity,
+        child: Column(
+          children: [
+            // **AppBar ile çakışmayı önlemek için üstten boşluk bırak**
+            SizedBox(
+              height: MediaQuery.of(context).padding.top + kToolbarHeight,
+            ),
+            // **Albüm kapağı ve butonlar**
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                NeumorphicButton(icon: Icons.playlist_add, onPressed: () {}),
+                const SizedBox(width: 20),
+                SizedBox(width: 160, height: 160, child: CircleCover()),
+                const SizedBox(width: 20),
+                NeumorphicButton(icon: Icons.share, onPressed: () {}),
+              ],
+            ),
+            const SizedBox(height: 30), // **Altına boşluk bırak**
+            // **Şarkı Listesi**
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: Playlist.getItems(),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

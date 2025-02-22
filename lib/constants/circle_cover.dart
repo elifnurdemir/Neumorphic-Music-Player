@@ -25,7 +25,7 @@ class CircleCover extends StatelessWidget {
         ],
       ),
       child: const Padding(
-        padding: EdgeInsets.all(5.0), // İçerideki albüm fotoğrafı için boşluk
+        padding: EdgeInsets.all(1.0), // İçerideki albüm fotoğrafı için boşluk
         child: CircleAvatar(
           radius: 130,
           backgroundImage: AssetImage('assets/images/powerwolf.jpg'),
