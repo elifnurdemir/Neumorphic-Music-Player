@@ -22,11 +22,9 @@ class PlayList extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            // **AppBar ile çakışmayı önlemek için üstten boşluk bırak**
             SizedBox(
               height: MediaQuery.of(context).padding.top + kToolbarHeight,
             ),
-            // **Albüm kapağı ve butonlar**
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,8 +36,7 @@ class PlayList extends StatelessWidget {
                 NeumorphicButton(icon: Icons.share, onPressed: () {}),
               ],
             ),
-            const SizedBox(height: 30), // **Altına boşluk bırak**
-            // **Şarkı Listesi**
+            const SizedBox(height: 30),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
