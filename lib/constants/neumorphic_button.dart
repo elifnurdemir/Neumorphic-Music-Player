@@ -59,6 +59,13 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
 
   @override
   Widget build(BuildContext context) {
+    // MediaQuery ile ekranın boyutlarını alıyoruz
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // İkon boyutunu ekran genişliğine göre dinamik hale getiriyoruz
+    double iconSize = screenWidth * 0.08; // Ekran genişliğinin %8'i kadar
+    double paddingSize = screenWidth * 0.04; // Ekran genişliğinin %4'ü kadar
+
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) {
@@ -76,10 +83,10 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
           boxShadow: _shadows,
         ),
         child: Padding(
-          padding: widget.padding,
+          padding: EdgeInsets.all(paddingSize), // Dinamik padding
           child: Icon(
             widget.icon,
-            size: widget.iconSize,
+            size: iconSize, // Dinamik icon boyutu
             color:
                 _isPressed
                     ? const Color.fromRGBO(180, 180, 180, 1)
