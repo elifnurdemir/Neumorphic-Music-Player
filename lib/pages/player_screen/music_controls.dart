@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/constants/neumorphic_button.dart';
+import 'package:music_player/data/song_data.dart';
 import 'package:music_player/pages/player_screen/audio_progressbar.dart';
+import 'package:music_player/pages/player_screen/song.dart';
 
 class MusicControls extends StatefulWidget {
   final Function(bool)? onPlayStateChanged;
@@ -21,33 +23,8 @@ class MusicControlsState extends State<MusicControls> {
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
 
-  List<Map<String, String>> playlist = [
-    {
-      'title': 'Sarki Adi 1',
-      'artist': 'Sarkici Adi 1',
-      'url': 'sounds/spanish.mp3',
-    },
-    {
-      'title': 'Sarki Adi 2',
-      'artist': 'Sarkici Adi 2',
-      'url': 'sounds/daftpunk.mp3',
-    },
-    {
-      'title': 'Sarki Adi 3',
-      'artist': 'Sarkici Adi 3',
-      'url': 'sounds/metamorphosis.mp3',
-    },
-    {
-      'title': 'Sarki Adi 4',
-      'artist': 'Sarkici Adi 4',
-      'url': 'sounds/spanish.mp3',
-    },
-    {
-      'title': 'Sarki Adi 5',
-      'artist': 'Sarkici Adi 5',
-      'url': 'sounds/tomsdiner.mp3',
-    },
-  ];
+  // Replace 'playlist' with PlaylistData.songs
+  List<Song> playlist = PlaylistData.songs;
 
   @override
   void initState() {
@@ -75,11 +52,15 @@ class MusicControlsState extends State<MusicControls> {
   // Play the specified song
   Future<void> _playCurrentSong() async {
     try {
-      await _audioPlayer.play(AssetSource(playlist[_currentSongIndex]['url']!));
+      // Use the 'filePath' of the Song object
+      await _audioPlayer.play(
+        AssetSource(playlist[_currentSongIndex].filePath),
+      );
       setState(() => isPlaying = true);
       widget.onPlayStateChanged?.call(true);
     } catch (e) {
-      print("Error playing sound: $e");
+      debugPrint('Error playing audio: $e');
+      widget.onPlayStateChanged?.call(false);
       setState(() => isPlaying = false);
     }
   }
@@ -95,7 +76,7 @@ class MusicControlsState extends State<MusicControls> {
       }
       widget.onPlayStateChanged?.call(isPlaying);
     } catch (e) {
-      print("Error toggling play/pause: $e");
+      debugPrint("Error toggling play/pause: $e");
     }
   }
 

@@ -3,13 +3,16 @@ import 'package:music_player/constants/circle_cover.dart';
 import 'package:music_player/constants/gradient_bg.dart';
 import 'package:music_player/constants/neumorphic_button.dart';
 import 'package:music_player/constants/title_textstyle.dart';
-import 'package:music_player/pages/playlist_screen/list.dart';
+import 'package:music_player/pages/player_screen/song.dart';
+import 'package:music_player/data/song_data.dart';
 
 class PlayList extends StatelessWidget {
   const PlayList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<Song> songs = PlaylistData.songs; // Merkezi şarkı listesi
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -31,16 +34,50 @@ class PlayList extends StatelessWidget {
               children: [
                 NeumorphicButton(icon: Icons.playlist_add, onPressed: () {}),
                 const SizedBox(width: 20),
-                SizedBox(width: 160, height: 160, child: CircleCover()),
+                const SizedBox(width: 160, height: 160, child: CircleCover()),
                 const SizedBox(width: 20),
                 NeumorphicButton(icon: Icons.share, onPressed: () {}),
               ],
             ),
             const SizedBox(height: 30),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                children: Playlist.getItems(),
+              child: ListView.builder(
+                itemCount: songs.length,
+                itemBuilder: (context, index) {
+                  final song = songs[index];
+
+                  return ListTile(
+                    title: Text(
+                      song.title,
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      song.artist,
+                      style: TextStyle(fontSize: 15, color: Colors.white70),
+                    ),
+                    onTap: () {
+                      // Buraya şarkı çalma kodu eklenebilir
+                    },
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        NeumorphicButton(
+                          icon: Icons.play_arrow,
+                          onPressed: () {},
+
+                          // Şarkıyı çalma işlemi yapılacak
+                        ),
+                        NeumorphicButton(
+                          icon: Icons.favorite_border,
+                          onPressed: () {
+                            // Favori tuşuna tıklama işlevi burada olacak
+                            // Şarkıyı favorilere ekleme işlemi yapılacak
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ],

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/constants/gradient_bg.dart';
-import 'package:music_player/pages/player_screen/albumcover.dart';
+import 'package:music_player/data/song_data.dart';
+import 'package:music_player/pages/player_screen/album_cover.dart';
 import 'package:music_player/constants/custom_appbar.dart';
-import 'package:music_player/pages/player_screen/controls.dart';
+import 'package:music_player/pages/player_screen/music_controls.dart';
+import 'package:music_player/pages/player_screen/song.dart';
 import 'package:music_player/pages/player_screen/songdetail.dart';
+// song_data.dart dosyasını import edin
 
 class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({Key? key}) : super(key: key);
+  final Song? song;
+  const MusicPlayer({super.key, this.song});
 
   @override
   MusicPlayerState createState() => MusicPlayerState();
@@ -17,6 +21,9 @@ class MusicPlayerState extends State<MusicPlayer> {
   late AudioPlayer _audioPlayer;
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
+
+  Duration get duration => _duration;
+  Duration get position => _position;
 
   @override
   void initState() {
@@ -50,6 +57,12 @@ class MusicPlayerState extends State<MusicPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    // Burada song_data.dart dosyasındaki ilk şarkıyı alıyoruz
+    final song =
+        PlaylistData.songs.isNotEmpty
+            ? PlaylistData.songs[0]
+            : Song(title: 'Sample Song', artist: 'Sample Artist', filePath: '');
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const CustomAppBar(),
@@ -63,7 +76,8 @@ class MusicPlayerState extends State<MusicPlayer> {
               const SizedBox(height: 100),
               const AlbumCover(),
               const SizedBox(height: 100),
-              SongDetails(),
+              // SongDetails widget'ına song verisini geçiyoruz
+              SongDetails(song: song),
               const SizedBox(height: 50),
               MusicControls(),
             ],

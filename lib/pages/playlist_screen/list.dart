@@ -30,6 +30,8 @@ class Playlist {
     },
   ];
 
+  static int? length;
+
   static List<Widget> getItems() {
     return List.generate(songs.length, (index) {
       return SongTile(
@@ -95,7 +97,7 @@ class _SongTileState extends State<SongTile> {
       });
     } catch (e) {
       // Hata yakalama
-      print("Hata: Müzik oynatılamadı! $e");
+      debugPrint("Hata: Müzik oynatılamadı! $e");
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Hata: Müzik oynatılamadı!')));
