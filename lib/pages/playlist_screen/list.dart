@@ -4,40 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:music_player/constants/neumorphic_button.dart';
 import 'package:music_player/constants/title_textstyle.dart';
+import 'package:music_player/data/song_data.dart';
+import 'package:music_player/pages/player_screen/song.dart';
 
 class Playlist {
-  static List<Map<String, String>> songs = [
-    {
-      'title': 'Sarki Adi 1',
-      'artist': 'Sarkici Adi 1',
-      'url': 'assets/sounds/spanish.mp3',
-    },
-    {
-      'title': 'Sarki Adi 2',
-      'artist': 'Sarkici Adi 2',
-      'url': 'assets/sounds/daftpunk.mp3',
-    },
-    {
-      'title': 'Sarki Adi 3',
-      'artist': 'Sarkici Adi 3',
-      'url': 'assets/sounds/metamorphosis.mp3',
-    },
-
-    {
-      'title': 'Sarki Adi 5',
-      'artist': 'Sarkici Adi 5',
-      'url': 'assets/sounds/tomsdiner.mp3',
-    },
-  ];
+  static final List<Song> songs = PlaylistData.songs;
 
   static int? length;
 
   static List<Widget> getItems() {
     return List.generate(songs.length, (index) {
       return SongTile(
-        songTitle: songs[index]['title'] ?? '',
-        artistName: songs[index]['artist'] ?? '',
-        audioAssetPath: songs[index]['url'] ?? '',
+        songTitle: songs[index].title,
+        artistName: songs[index].artist,
+        audioAssetPath: songs[index].filePath,
       );
     });
   }
