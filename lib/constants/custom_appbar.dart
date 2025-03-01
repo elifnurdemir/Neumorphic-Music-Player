@@ -30,7 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   MaterialPageRoute(builder: (context) => PlayList()),
                 );
               },
-              iconSize: 20,
+              iconSize: 2,
               bgColor: const Color(0xFF2E2E2E),
               padding: const EdgeInsets.all(14),
             ),

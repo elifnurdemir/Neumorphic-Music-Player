@@ -14,6 +14,7 @@ class NeumorphicButton extends StatefulWidget {
   final Color bgColor;
   final EdgeInsets padding;
   final Color borderColor;
+  final bool useFixedSize;
 
   const NeumorphicButton({
     super.key,
@@ -23,6 +24,7 @@ class NeumorphicButton extends StatefulWidget {
     this.bgColor = _kDarkBgColor,
     this.padding = _kPadding,
     this.borderColor = _kBorderColor,
+    this.useFixedSize = false,
   });
 
   @override
@@ -59,12 +61,15 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
 
   @override
   Widget build(BuildContext context) {
-    // MediaQuery ile ekranın boyutlarını alıyoruz
     final screenWidth = MediaQuery.of(context).size.width;
 
-    // İkon boyutunu ekran genişliğine göre dinamik hale getiriyoruz
-    double iconSize = screenWidth * 0.08; // Ekran genişliğinin %8'i kadar
-    double paddingSize = screenWidth * 0.04; // Ekran genişliğinin %4'ü kadar
+    double iconSize = widget.iconSize;
+    double paddingSize = widget.padding.top;
+
+    if (!widget.useFixedSize) {
+      iconSize = screenWidth * 0.08;
+      paddingSize = screenWidth * 0.04;
+    }
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
@@ -83,10 +88,10 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
           boxShadow: _shadows,
         ),
         child: Padding(
-          padding: EdgeInsets.all(paddingSize), // Dinamik padding
+          padding: EdgeInsets.all(paddingSize),
           child: Icon(
             widget.icon,
-            size: iconSize, // Dinamik icon boyutu
+            size: iconSize,
             color:
                 _isPressed
                     ? const Color.fromRGBO(180, 180, 180, 1)

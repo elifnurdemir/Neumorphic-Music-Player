@@ -11,7 +11,7 @@ class PlayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true, // **AppBar'ı şeffaf yap**
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('Playlist', style: TitleTextStyle.title),
         backgroundColor: Colors.transparent,
