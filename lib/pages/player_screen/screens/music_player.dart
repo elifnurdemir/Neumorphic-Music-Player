@@ -77,9 +77,9 @@ class MusicPlayerState extends State<MusicPlayer> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 100),
+              const SizedBox(height: 50),
               const AlbumCover(),
-              const SizedBox(height: 100),
+              const SizedBox(height: 50),
               SongDetails(song: song), // Dinamik şarkıyı geçiriyoruz
               const SizedBox(height: 50),
               MusicControls(),

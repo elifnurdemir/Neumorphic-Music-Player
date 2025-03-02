@@ -24,7 +24,7 @@ class AudioProgressBar extends StatelessWidget {
             : duration.inSeconds.toDouble();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
       child: Column(
         children: [
           // The progress bar (Slider) will always be visible and aligned
@@ -44,7 +44,7 @@ class AudioProgressBar extends StatelessWidget {
             },
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 1.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

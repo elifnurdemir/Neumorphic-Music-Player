@@ -39,9 +39,10 @@ class PlayList extends StatelessWidget {
                 NeumorphicButton(icon: Icons.share, onPressed: () {}),
               ],
             ),
-            const SizedBox(height: 30),
+
             Expanded(
               child: ListView.builder(
+                padding: EdgeInsets.symmetric(),
                 itemCount: songs.length,
                 itemBuilder: (context, index) {
                   final song = songs[index];
