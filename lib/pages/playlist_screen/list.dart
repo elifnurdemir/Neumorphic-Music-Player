@@ -7,134 +7,142 @@ import 'package:music_player/constants/title_textstyle.dart';
 import 'package:music_player/data/song_data.dart';
 import 'package:music_player/pages/player_screen/song.dart';
 
+// Global player and currently playing track
+final AudioPlayer globalAudioPlayer = AudioPlayer();
+String? currentlyPlaying;
+// Simple in-memory favorite songs list
+final Set<String> favoriteSongs = {};
+
 class Playlist {
   static final List<Song> songs = PlaylistData.songs;
 
-  static int? length;
-
   static List<Widget> getItems() {
     return List.generate(songs.length, (index) {
-      return SongTile(
-        songTitle: songs[index].title,
-        artistName: songs[index].artist,
-        audioAssetPath: songs[index].filePath,
-      );
+      return SongTile(key: ValueKey(songs[index].title), song: songs[index]);
     });
   }
 }
 
 class SongTile extends StatefulWidget {
-  final String songTitle;
-  final String artistName;
-  final String audioAssetPath;
+  final Song song;
 
-  const SongTile({
-    super.key,
-    required this.songTitle,
-    required this.artistName,
-    required this.audioAssetPath,
-  });
+  const SongTile({super.key, required this.song});
 
   @override
   State<SongTile> createState() => _SongTileState();
 }
 
 class _SongTileState extends State<SongTile> {
-  bool isPlaying = false; // Müzik çalıyor mu?
-  bool isFavorited = false; // Şarkı favoriye eklendi mi?
-  final AudioPlayer _audioPlayer = AudioPlayer(); // AudioPlayer nesnesi
+  bool isFavorited = false;
+  bool isPlaying = false;
 
   @override
   void initState() {
     super.initState();
-    // Müzik çalma durumu dinleniyor ve isPlaying değişkeni güncelleniyor
-    _audioPlayer.onPlayerStateChanged.listen((playerState) {
-      setState(() {
-        isPlaying = playerState == PlayerState.playing;
-      });
+
+    // Check if this song is already in favorites
+    isFavorited = favoriteSongs.contains(widget.song.title);
+
+    // Listen for player state changes
+    globalAudioPlayer.onPlayerStateChanged.listen((playerState) {
+      if (mounted) {
+        if (currentlyPlaying == widget.song.filePath) {
+          setState(() {
+            isPlaying = playerState == PlayerState.playing;
+          });
+        } else {
+          setState(() {
+            isPlaying = false;
+          });
+        }
+      }
+    });
+
+    // Listen for song completion
+    globalAudioPlayer.onPlayerComplete.listen((_) {
+      if (mounted && currentlyPlaying == widget.song.filePath) {
+        setState(() {
+          isPlaying = false;
+          currentlyPlaying = null;
+        });
+      }
     });
   }
 
-  @override
-  void dispose() {
-    _audioPlayer.dispose(); // AudioPlayer'ı serbest bırakıyoruz
-    super.dispose();
-  }
-
-  // Müzik çalmasını başlatma veya duraklatma
   Future<void> _togglePlayPause() async {
     try {
       if (isPlaying) {
-        await _audioPlayer.pause(); // Eğer müzik çalıyorsa duraklat
+        // If already playing, pause it
+        await globalAudioPlayer.pause();
       } else {
-        await _audioPlayer.play(
-          AssetSource(widget.audioAssetPath),
-        ); // Eğer müzik duraklatıldıysa, çalmaya başla
-      }
+        // If another song is playing, stop it first
+        if (currentlyPlaying != null &&
+            currentlyPlaying != widget.song.filePath) {
+          await globalAudioPlayer.stop();
+        }
 
-      setState(() {
-        isPlaying = !isPlaying; // Çalma durumu tersine çevriliyor
-      });
+        // Play this song
+        await globalAudioPlayer.play(AssetSource(widget.song.filePath));
+        currentlyPlaying = widget.song.filePath;
+        setState(() {
+          isPlaying = true;
+        });
+      }
     } catch (e) {
-      // Hata yakalama
-      debugPrint("Hata: Müzik oynatılamadı! $e");
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Hata: Müzik oynatılamadı!')));
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Hata: Müzik oynatılamadı! $e')));
+      }
     }
   }
 
-  // Favori ekleme veya çıkarma işlemi
   void _toggleFavorite() {
     setState(() {
       isFavorited = !isFavorited;
+
+      // Update the global favorites set
+      if (isFavorited) {
+        favoriteSongs.add(widget.song.title);
+      } else {
+        favoriteSongs.remove(widget.song.title);
+      }
     });
 
-    // Favori durumu değiştiğinde kullanıcıya bildirim gönder
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          isFavorited ? 'Favorilere Eklendi' : 'Favorilerden Çıkarıldı',
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            isFavorited ? 'Favorilere Eklendi' : 'Favorilerden Çıkarıldı',
+          ),
+          duration: const Duration(seconds: 1),
         ),
-      ),
-    );
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
-        widget.songTitle, // Şarkı adı
-        style: TitleTextStyle.title,
-      ),
+      title: Text(widget.song.title, style: TitleTextStyle.title),
       subtitle: Text(
-        widget.artistName, // Sanatçı adı
-        style: TextStyle(
-          fontSize: 16, // Sanatçı adı font boyutu
-          fontStyle: FontStyle.italic, // Sanatçı adı italik
-          color: Colors.grey, // Sanatçı adı rengi
+        widget.song.artist,
+        style: const TextStyle(
+          fontSize: 16,
+          fontStyle: FontStyle.italic,
+          color: Colors.grey,
         ),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(width: 10),
-          // Play/Pause butonu
           NeumorphicButton(
-            icon:
-                isPlaying
-                    ? Icons.pause
-                    : Icons
-                        .play_arrow, // Eğer müzik çalıyorsa pause, değilse play ikonu göster
+            icon: isPlaying ? Icons.pause : Icons.play_arrow,
             onPressed: _togglePlayPause,
           ),
-          // Favori butonu
+          const SizedBox(width: 10),
           NeumorphicButton(
-            icon:
-                isFavorited
-                    ? Icons.favorite
-                    : Icons
-                        .favorite_border, // Favoriye eklenmişse, dolu kalp simgesi
+            icon: isFavorited ? Icons.favorite : Icons.favorite_border,
             onPressed: _toggleFavorite,
           ),
         ],

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:music_player/constants/neumorphic_button.dart';
-import 'package:music_player/data/song_data.dart';
+import 'package:music_player/controllers/music_controls_controller.dart';
 import 'package:music_player/pages/player_screen/audio_progressbar.dart';
-import 'package:music_player/pages/player_screen/song.dart';
+import 'package:music_player/constants/neumorphic_button.dart';
 
 class MusicControls extends StatefulWidget {
   final Function(bool)? onPlayStateChanged;
@@ -15,130 +13,64 @@ class MusicControls extends StatefulWidget {
 }
 
 class MusicControlsState extends State<MusicControls> {
-  bool isPlaying = false;
-  late AudioPlayer _audioPlayer;
-  int _currentSongIndex = 0;
-
-  // For tracking audio position
-  Duration _duration = Duration.zero;
-  Duration _position = Duration.zero;
-
-  // Replace 'playlist' with PlaylistData.songs
-  List<Song> playlist = PlaylistData.songs;
+  late MusicControlsController _controller;
 
   @override
   void initState() {
     super.initState();
-    _audioPlayer = AudioPlayer();
-    _setupAudioPlayerListeners();
-  }
-
-  // Set up audio player listeners
-  void _setupAudioPlayerListeners() {
-    _audioPlayer.onDurationChanged.listen((newDuration) {
-      setState(() => _duration = newDuration);
-    });
-
-    _audioPlayer.onPositionChanged.listen((newPosition) {
-      setState(() => _position = newPosition);
-    });
-
-    _audioPlayer.onPlayerComplete.listen((_) {
-      _playNext();
-      widget.onPlayStateChanged?.call(isPlaying);
-    });
-  }
-
-  // Play the specified song
-  Future<void> _playCurrentSong() async {
-    try {
-      // Use the 'filePath' of the Song object
-      await _audioPlayer.play(
-        AssetSource(playlist[_currentSongIndex].filePath),
-      );
-      setState(() => isPlaying = true);
-      widget.onPlayStateChanged?.call(true);
-    } catch (e) {
-      debugPrint('Error playing audio: $e');
-      widget.onPlayStateChanged?.call(false);
-      setState(() => isPlaying = false);
-    }
-  }
-
-  // Toggle between play and pause states
-  void togglePlayPause() async {
-    try {
-      if (isPlaying) {
-        await _audioPlayer.pause();
-        setState(() => isPlaying = false);
-      } else {
-        _playCurrentSong();
-      }
-      widget.onPlayStateChanged?.call(isPlaying);
-    } catch (e) {
-      debugPrint("Error toggling play/pause: $e");
-    }
-  }
-
-  // Play the next song in the playlist
-  void _playNext() {
-    setState(() {
-      _currentSongIndex = (_currentSongIndex + 1) % playlist.length;
-    });
-    _playCurrentSong();
-  }
-
-  // Play the previous song in the playlist
-  void _playPrevious() {
-    setState(() {
-      _currentSongIndex =
-          (_currentSongIndex - 1 + playlist.length) % playlist.length;
-    });
-    _playCurrentSong();
+    _controller = MusicControlsController(
+      onPlayStateChanged: widget.onPlayStateChanged,
+    );
   }
 
   @override
   void dispose() {
-    _audioPlayer.dispose(); // Free up the AudioPlayer
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Always display the progress bar
-        AudioProgressBar(
-          position: _position,
-          duration: _duration,
-          onSeek: (duration) async => await _audioPlayer.seek(duration),
-          onChanged:
-              (value) async =>
-                  await _audioPlayer.seek(Duration(seconds: value.toInt())),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return StreamBuilder<MusicState>(
+      stream: _controller.musicStateStream,
+      initialData: _controller.currentState,
+      builder: (context, snapshot) {
+        final state = snapshot.data!;
+
+        return Column(
           children: [
-            // Previous track button
-            _buildControlButton(Icons.skip_previous, _playPrevious),
-            const SizedBox(width: 20),
-            // Play/Pause button (Main button)
-            _buildControlButton(
-              isPlaying ? Icons.pause : Icons.play_arrow,
-              togglePlayPause,
-              iconSize: 50,
-              padding: 20,
+            AudioProgressBar(
+              position: state.position,
+              duration: state.duration,
+              onSeek: _controller.seek,
+              onChanged: (value) async {
+                await _controller.seek(Duration(seconds: value.toInt()));
+              },
             ),
-            const SizedBox(width: 20),
-            // Next track button
-            _buildControlButton(Icons.skip_next, _playNext),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildControlButton(
+                  Icons.skip_previous,
+                  _controller.playPrevious,
+                ),
+                const SizedBox(width: 20),
+                _buildControlButton(
+                  state.isPlaying ? Icons.pause : Icons.play_arrow,
+                  _controller.togglePlayPause,
+                  iconSize: 50,
+                  padding: 20,
+                ),
+                const SizedBox(width: 20),
+                _buildControlButton(Icons.skip_next, _controller.playNext),
+              ],
+            ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 
-  // Helper method to build a control button
   Widget _buildControlButton(
     IconData icon,
     VoidCallback onPressed, {

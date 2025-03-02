@@ -42,6 +42,11 @@ class MusicPlayerState extends State<MusicPlayer> {
         _position = position;
       });
     });
+
+    // Eğer song parametresi null değilse, doğru şarkıyı al
+    if (widget.song != null) {
+      _audioPlayer.setSource(UrlSource(widget.song!.filePath));
+    }
   }
 
   @override
@@ -57,11 +62,10 @@ class MusicPlayerState extends State<MusicPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    // Burada song_data.dart dosyasındaki ilk şarkıyı alıyoruz
     final song =
-        PlaylistData.songs.isNotEmpty
-            ? PlaylistData.songs[0]
-            : Song(title: 'Sample Song', artist: 'Sample Artist', filePath: '');
+        widget.song ??
+        PlaylistData
+            .songs[0]; // Eğer song parametresi varsa onu al, yoksa PlaylistData'dan al
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -76,8 +80,7 @@ class MusicPlayerState extends State<MusicPlayer> {
               const SizedBox(height: 100),
               const AlbumCover(),
               const SizedBox(height: 100),
-              // SongDetails widget'ına song verisini geçiyoruz
-              SongDetails(song: song),
+              SongDetails(song: song), // Dinamik şarkıyı geçiriyoruz
               const SizedBox(height: 50),
               MusicControls(),
             ],
