@@ -5,9 +5,9 @@ class GradientBG {
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
     colors: [
-      Color.fromARGB(255, 105, 108, 124),
-      Color.fromARGB(255, 42, 43, 49),
-      Color.fromARGB(255, 16, 17, 21),
+      Color.fromARGB(255, 140, 142, 152),
+      Color.fromARGB(255, 41, 41, 42),
+      Color.fromARGB(255, 0, 0, 0),
     ],
   );
 }

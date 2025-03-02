@@ -1,30 +1,39 @@
 import 'package:flutter/material.dart';
 
 // Sabitler
-const Color _kDarkBgColor = Color(0xFF2E2E2E);
-const Color _kBorderColor = Color(0xFF404040);
-const double _kIconSize = 30.0;
-const EdgeInsets _kPadding = EdgeInsets.all(15);
-const double _kBorderWidth = 2.0;
+// Dark background rengini belirliyoruz.
+const Color _kDarkBgColor = Color.fromARGB(255, 27, 27, 27);
+
+// Border rengi için sabit.
+const Color _kBorderColor = Colors.transparent;
+
+// Varsayılan ikon boyutu sabiti.
+const double _kIconSize = 20.0;
+
+// Varsayılan padding değeri.
+const EdgeInsets _kPadding = EdgeInsets.all(20);
+
+// Border genişliği sabiti.
+const double _kBorderWidth = 0.5;
 
 class NeumorphicButton extends StatefulWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
-  final double iconSize;
-  final Color bgColor;
-  final EdgeInsets padding;
-  final Color borderColor;
-  final bool useFixedSize;
+  final IconData icon; // İkon verisi.
+  final VoidCallback onPressed; // Butona tıklandığında çalışacak fonksiyon.
+  final double iconSize; // İkon boyutu.
+  final Color bgColor; // Butonun arka plan rengi.
+  final EdgeInsets padding; // Butonun iç padding'i.
+  final Color borderColor; // Border rengi.
+  final bool useFixedSize; // Sabit boyut kullanma durumu.
 
   const NeumorphicButton({
     super.key,
-    required this.icon,
-    required this.onPressed,
-    this.iconSize = _kIconSize,
-    this.bgColor = _kDarkBgColor,
-    this.padding = _kPadding,
-    this.borderColor = _kBorderColor,
-    this.useFixedSize = false,
+    required this.icon, // İkon verisi zorunlu.
+    required this.onPressed, // Tıklama fonksiyonu zorunlu.
+    this.iconSize = _kIconSize, // Varsayılan ikon boyutu.
+    this.bgColor = _kDarkBgColor, // Varsayılan arka plan rengi.
+    this.padding = _kPadding, // Varsayılan padding.
+    this.borderColor = _kBorderColor, // Varsayılan border rengi.
+    this.useFixedSize = false, // Varsayılan olarak sabit boyut kullanılmaz.
   });
 
   @override
@@ -32,70 +41,121 @@ class NeumorphicButton extends StatefulWidget {
 }
 
 class _NeumorphicButtonState extends State<NeumorphicButton> {
-  bool _isPressed = false;
+  bool _isPressed = false; // Butonun basılı olup olmadığını tutar.
 
+  // Butonun gölge efektleri, basıldığında daha koyu, basılmadığında daha açık olur.
   List<BoxShadow> get _shadows => [
     BoxShadow(
+      // Basıldığında daha koyu, basılmadığında daha açık gölge.
       color:
           _isPressed
-              ? const Color.fromRGBO(0, 0, 0, 0.8)
-              : const Color.fromRGBO(0, 0, 0, 0.1),
-      offset: Offset(_isPressed ? 3 : 6, _isPressed ? 3 : 6),
-      blurRadius: _isPressed ? 6 : 12,
+              ? const Color.fromARGB(204, 57, 57, 57) // Basıldığında daha koyu
+              : const Color.fromARGB(
+                26,
+                42,
+                42,
+                42,
+              ), // Basılmadığında daha açık
+      offset: Offset(
+        _isPressed ? 3 : 6,
+        _isPressed ? 3 : 6,
+      ), // Basılınca gölge yeri değişir.
+      blurRadius: _isPressed ? 3 : 6, // Basılınca daha az bulanık olur.
     ),
     BoxShadow(
-      color: const Color.fromRGBO(255, 255, 255, 0.1),
-      offset: Offset(_isPressed ? -3 : -6, _isPressed ? -3 : -6),
-      blurRadius: _isPressed ? 6 : 12,
+      // İkinci gölge, ışık etkisini sağlar.
+      color: const Color.fromARGB(26, 137, 137, 137),
+      offset: Offset(
+        _isPressed ? -3 : -6,
+        _isPressed ? -3 : -6,
+      ), // Gölge yeri, basıldığında ters yönde.
+      blurRadius: _isPressed ? 3 : 6, // Basılmadığında daha büyük bulanıklık.
     ),
   ];
 
+  // Butonun gradient (gradyan) arka plan rengi.
   Gradient get _gradient => LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topLeft, // Başlangıç noktasını belirler.
+    end: Alignment.bottomRight, // Bitiş noktasını belirler.
     colors:
         _isPressed
-            ? [Colors.grey.shade900, Colors.grey.shade700]
-            : [Colors.grey.shade700, Colors.grey.shade900],
+            ? [
+              Colors.grey.shade900,
+              Colors.grey.shade700,
+            ] // Basıldığında daha koyu renkler.
+            : [
+              const Color.fromARGB(255, 97, 96, 96),
+              const Color.fromARGB(255, 19, 19, 19),
+            ], // Basılmadığında daha açık renkler.
   );
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width; // Ekran genişliği
 
+    // İkon boyutunu sabit değeri ya da ekran genişliğine göre ayarlıyoruz.
     double iconSize = widget.iconSize;
     double paddingSize = widget.padding.top;
 
+    // Eğer sabit boyut kullanılmazsa, ikon boyutunu ekran genişliğine göre ayarla.
     if (!widget.useFixedSize) {
-      iconSize = screenWidth * 0.08;
-      paddingSize = screenWidth * 0.04;
+      iconSize =
+          screenWidth * 0.08; // Ekran genişliğinin %8'i kadar ikon boyutu.
+      paddingSize =
+          screenWidth * 0.04; // Ekran genişliğinin %4'ü kadar padding.
     }
 
+    // Butona tıklama olaylarını tanımlıyoruz.
     return GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapDown:
+          (_) => setState(
+            () => _isPressed = true,
+          ), // Tıklandığında buton basılı gibi görünür.
       onTapUp: (_) {
-        setState(() => _isPressed = false);
-        widget.onPressed();
+        setState(
+          () => _isPressed = false,
+        ); // Tıklama bittiğinde buton normal hale gelir.
+        widget.onPressed(); // Tıklama fonksiyonu çağrılır.
       },
-      onTapCancel: () => setState(() => _isPressed = false),
+      onTapCancel:
+          () => setState(
+            () => _isPressed = false,
+          ), // Tıklama iptal olursa buton normale döner.
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
+        duration: const Duration(
+          milliseconds: 150,
+        ), // Buton basıldığında geçiş süresi.
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: widget.bgColor,
-          border: Border.all(color: widget.borderColor, width: _kBorderWidth),
-          gradient: _gradient,
-          boxShadow: _shadows,
+          shape: BoxShape.circle, // Butonun yuvarlak olmasını sağlar.
+          color: widget.bgColor, // Butonun arka plan rengini ayarlıyoruz.
+          border: Border.all(
+            color: widget.borderColor,
+            width: _kBorderWidth,
+          ), // Butonun kenarlık rengi.
+          gradient: _gradient, // Butonun arka planındaki gradyan renkler.
+          boxShadow: _shadows, // Butona eklediğimiz gölge efektleri.
         ),
         child: Padding(
-          padding: EdgeInsets.all(paddingSize),
+          padding: EdgeInsets.all(
+            paddingSize,
+          ), // Butonun içindeki alanı belirler.
           child: Icon(
-            widget.icon,
-            size: iconSize,
+            widget.icon, // İkonun kendisi.
+            size: iconSize, // İkon boyutu.
             color:
                 _isPressed
-                    ? const Color.fromRGBO(180, 180, 180, 1)
-                    : const Color.fromRGBO(200, 200, 200, 1),
+                    ? const Color.fromARGB(
+                      255,
+                      171,
+                      164,
+                      164,
+                    ) // Basıldığında daha açık renk.
+                    : const Color.fromARGB(
+                      255,
+                      139,
+                      139,
+                      139,
+                    ), // Basılmadığında daha koyu renk.
           ),
         ),
       ),
