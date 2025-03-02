@@ -57,15 +57,15 @@ class MusicPlayerState extends State<MusicPlayer> {
 
   // Seek işlemi için
   void onSeek(Duration value) {
-    _audioPlayer.seek(value);
+    _audioPlayer.seek(Duration.zero);
   }
 
   @override
   Widget build(BuildContext context) {
     final song =
-        widget.song ??
-        PlaylistData
-            .songs[0]; // Eğer song parametresi varsa onu al, yoksa PlaylistData'dan al
+        widget.song ?? PlaylistData.songs[0]; // şarkı ilerledikçe bir arttır
+
+    // Eğer song parametresi varsa onu al, yoksa PlaylistData'dan al
 
     return Scaffold(
       extendBodyBehindAppBar: true,

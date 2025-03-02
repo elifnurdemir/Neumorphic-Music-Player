@@ -4,7 +4,7 @@ class PlaylistData {
   static final List<Song> songs = [
     Song(
       title: 'Spanish Guitar',
-      artist: 'Sarkici Adi 1',
+      artist: 'Tarrega',
       filePath: 'sounds/tomsdiner.mp3',
     ),
     Song(
@@ -14,7 +14,7 @@ class PlaylistData {
     ),
     Song(
       title: 'Metamorphosis',
-      artist: 'Sarkici Adi 3',
+      artist: 'Matina Sous Peau',
       filePath: 'sounds/metamorphosis.mp3',
     ),
     Song(

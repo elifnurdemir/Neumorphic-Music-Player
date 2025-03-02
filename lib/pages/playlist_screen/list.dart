@@ -124,7 +124,12 @@ class _SongTileState extends State<SongTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(widget.song.title, style: TitleTextStyle.title),
+      title: Text(
+        widget.song.title,
+        style: TitleTextStyle.title.copyWith(
+          color: isPlaying ? Colors.cyan : Colors.black, // Turkuaz rengi
+        ),
+      ),
       subtitle: Text(
         widget.song.artist,
         style: const TextStyle(
@@ -139,6 +144,7 @@ class _SongTileState extends State<SongTile> {
           NeumorphicButton(
             icon: isPlaying ? Icons.pause : Icons.play_arrow,
             onPressed: _togglePlayPause,
+            bgColor: isPlaying ? Colors.cyan : Colors.black, // Turkuaz rengi
           ),
           const SizedBox(width: 10),
           NeumorphicButton(
